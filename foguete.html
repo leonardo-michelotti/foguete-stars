@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lançamento de foguete</title>
+</head>
+
+<body>
+</body>
+<script>
+const estagios = [{
+  velocidade: 6000,
+  tempo: 60,
+  combustivel: 'sólido'
+},
+{
+  velocidade: 10000,
+  tempo: 60,
+  combustivel: 'líquido'
+},
+{
+  velocidade: 15000,
+  tempo: 45,
+  combustivel: 'líquido'
+}]
+
+function aguardarFimDoEstagio(estagio) {
+  let { velocidade, tempo, combustivel } = estagios[estagio]
+  console.log(`Aguardando foguete alcançar ${velocidade} km/h usando combústivel ${combustivel}, tempo estimado: ${tempo} segundo(s).`)
+  return new Promise((resolve, reject) => {
+    const interval = setInterval(() => {
+      console.log(`Tempo restante: ${tempo} segundo(s)`)
+      tempo--
+      if (tempo == 0) {
+        console.log(`Foguete alcançou ${velocidade} km/h.`)
+        clearInterval(interval)
+        resolve()
+      }
+    }, 1000)
+  })
+}
+
+async function lancarFoguete() {
+  console.log('Lançando foguete...')
+  for (const estagio in estagios) {
+    await aguardarFimDoEstagio(estagio)
+  }
+}
+
+lancarFoguete().then(() => console.log('Foguete lançado com sucesso!'))
+
+</script>
+
+</html>
